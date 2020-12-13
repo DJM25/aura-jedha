@@ -17,9 +17,12 @@ chosen_record = st.sidebar.selectbox(
    'Which record ?',
    record_final_list
 )
-time_lap = [1000,2000,3000]
+
+#st.write('Values:', sampfromvalue)
+#1500
+time_lap =  list(range(0, 1500))
 chosen_time = st.sidebar.selectbox(
-   'Which time lap (ms) ?',
+   'Which time lap (min) ?',
    time_lap
 )
 frequency = [1000,500,250]
@@ -27,10 +30,12 @@ chosen_frequency = st.sidebar.selectbox(
    'Which frequency (Hz) ?',
    frequency
 )
+secondstart = chosen_time * 60000
+sampfromvalue,  samptovalue = st.slider('Select a range of values', secondstart, secondstart + 60000, (secondstart, secondstart + 2000))
 #pn_dir='butqdb'.
 @st.cache
 def load_data(nrows):
-    record = wfdb.rdrecord(f"{chosen_record}_ECG", pn_dir=f"butqdb/{chosen_record}/", sampfrom=0, sampto=chosen_time)
+    record = wfdb.rdrecord(f"{chosen_record}_ECG", pn_dir=f"butqdb/{chosen_record}/", sampfrom=sampfromvalue, sampto=samptovalue)
     #data = pd.read_csv(DATA_URL, nrows=nrows)
     #lowercase = lambda x: str(x).lower()
     #data.rename(lowercase, axis='columns', inplace=True)
