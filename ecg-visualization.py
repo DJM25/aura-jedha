@@ -58,7 +58,7 @@ st.line_chart(data)
 # choose default wavelet function 
 scg.set_default_wavelet('morl')
 
-signal_length = chosen_time
+signal_length = samptovalue-sampfromvalue
 # range of scales to perform the transform
 scales = scg.periods2scales( np.arange(1, signal_length+1) )
 x_values_wvt_arr = range(0,len(data),1)
