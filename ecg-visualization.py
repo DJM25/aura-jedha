@@ -28,16 +28,16 @@ frequency = [1000,500,250]
 #   'Which frequency (Hz) ?',
 #   frequency
 #)
-secondstart = chosen_time * 60000
-sampfromvalue,  samptovalue = st.slider('Select a range of values', secondstart, secondstart + 60000, (secondstart, secondstart + 2000))
+secondstart = chosen_time * 10000
+sampfromvalue,  samptovalue = st.slider('Select a range of values', secondstart, secondstart + 10000, (secondstart, secondstart + 2000))
 #pn_dir='butqdb'.
 @st.cache
-def load_data(nrows):
+def load_data():
     record = wfdb.rdrecord(f"{chosen_record}_ECG", pn_dir=f"butqdb/{chosen_record}/", sampfrom=sampfromvalue, sampto=samptovalue)
     return record.adc()[:,0]
 
 data_load_state = st.text('Loading data...')
-data = load_data(10000)
+data = load_data()
 data_load_state.text("Done! (using st.cache)")
 
 if st.checkbox('Show raw data'):
@@ -48,7 +48,7 @@ st.subheader(f"ECG record : {chosen_record}")
 
 st.line_chart(data)
 
-if samptovalue-sampfromvalue < 30000:
+if samptovalue-sampfromvalue > 2000:
     st.text('No scaleogram range to long')
 else : 
     # choose default wavelet function 
